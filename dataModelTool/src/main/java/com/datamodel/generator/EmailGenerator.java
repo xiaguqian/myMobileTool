@@ -1,7 +1,7 @@
 package com.datamodel.generator;
 
 import com.alibaba.fastjson.JSONObject;
-import net.datafaker.Faker;
+import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
