@@ -65,21 +65,10 @@ CREATE TABLE IF NOT EXISTS `sys_data_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模拟数据规则表';
 
 -- =============================================
--- 初始化数据
+-- 默认管理员用户会在应用启动时自动创建
+-- 用户名: admin
+-- 密码: admin123
 -- =============================================
-
--- 默认管理员用户: admin / admin123
--- 密码使用 MD5(MD5(password) + salt) 加密
--- 实际密码: admin123
--- 盐值: abc123
--- MD5(admin123) = 0192023a7bbd73250516f069df18b500
--- MD5(0192023a7bbd73250516f069df18b500 + abc123) = 请使用LoginService中的加密方式生成
--- 这里使用 Shiro 的 Md5Hash 方式: Md5Hash(password, salt, 2)
-
--- 密码: admin123, 盐值: abc123, 迭代次数: 2
--- 实际密码hash: 使用工具类生成
-INSERT INTO `sys_user` (`username`, `password`, `salt`, `nickname`, `email`, `status`) VALUES
-('admin', 'f7769cc591ad157dd31a3f4c5d3ad30', 'abc123', '系统管理员', 'admin@example.com', 1);
 
 -- 示例数据源配置(可选)
 -- INSERT INTO `sys_data_source` (`name`, `driver_class_name`, `jdbc_url`, `username`, `password`, `description`, `status`) VALUES
