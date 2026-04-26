@@ -3,7 +3,6 @@ package com.datamodel.generator;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -24,10 +23,10 @@ public class RandomStringGenerator implements DataGenerator {
             return generateRandomString(8, true, true, true);
         }
 
-        int length = config.getIntValue("length", 8);
-        boolean includeUppercase = config.getBooleanValue("includeUppercase", true);
-        boolean includeLowercase = config.getBooleanValue("includeLowercase", true);
-        boolean includeDigits = config.getBooleanValue("includeDigits", true);
+        int length = config.containsKey("length") ? config.getIntValue("length") : 8;
+        boolean includeUppercase = config.containsKey("includeUppercase") ? config.getBooleanValue("includeUppercase") : true;
+        boolean includeLowercase = config.containsKey("includeLowercase") ? config.getBooleanValue("includeLowercase") : true;
+        boolean includeDigits = config.containsKey("includeDigits") ? config.getBooleanValue("includeDigits") : true;
 
         return generateRandomString(length, includeUppercase, includeLowercase, includeDigits);
     }

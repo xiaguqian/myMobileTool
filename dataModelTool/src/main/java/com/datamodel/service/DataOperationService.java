@@ -4,7 +4,6 @@ import com.datamodel.config.datasource.DataSourceContextHolder;
 import com.datamodel.dto.DataOperationDTO;
 import com.datamodel.dto.DeleteDataDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

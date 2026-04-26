@@ -17,11 +17,11 @@ public class SequenceGenerator implements DataGenerator {
             return index + 1;
         }
 
-        int start = config.getIntValue("start", 1);
-        int step = config.getIntValue("step", 1);
+        int start = config.containsKey("start") ? config.getIntValue("start") : 1;
+        int step = config.containsKey("step") ? config.getIntValue("step") : 1;
         String prefix = config.getString("prefix");
         String suffix = config.getString("suffix");
-        int padding = config.getIntValue("padding", 0);
+        int padding = config.containsKey("padding") ? config.getIntValue("padding") : 0;
 
         int value = start + index * step;
         String result = String.valueOf(value);

@@ -19,12 +19,12 @@ public class RandomNumberGenerator implements DataGenerator {
             return ThreadLocalRandom.current().nextInt(0, 100);
         }
 
-        int min = config.getIntValue("min", 0);
-        int max = config.getIntValue("max", 100);
-        boolean isDecimal = config.getBooleanValue("isDecimal", false);
+        int min = config.containsKey("min") ? config.getIntValue("min") : 0;
+        int max = config.containsKey("max") ? config.getIntValue("max") : 100;
+        boolean isDecimal = config.containsKey("isDecimal") ? config.getBooleanValue("isDecimal") : false;
 
         if (isDecimal) {
-            int scale = config.getIntValue("scale", 2);
+            int scale = config.containsKey("scale") ? config.getIntValue("scale") : 2;
             double value = min + ThreadLocalRandom.current().nextDouble() * (max - min);
             double scaleFactor = Math.pow(10, scale);
             return Math.round(value * scaleFactor) / scaleFactor;

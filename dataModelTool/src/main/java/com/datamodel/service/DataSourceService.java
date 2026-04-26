@@ -82,10 +82,8 @@ public class DataSourceService {
                 }
             }
 
-            boolean needRefresh = false;
             if (existing.getStatus() == 1) {
                 dynamicDataSourceManager.removeDataSource(existing.getName());
-                needRefresh = true;
             }
 
             existing.setName(dto.getName());

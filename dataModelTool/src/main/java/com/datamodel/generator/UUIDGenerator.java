@@ -19,8 +19,8 @@ public class UUIDGenerator implements DataGenerator {
         boolean toUpperCase = false;
 
         if (config != null) {
-            removeDash = config.getBooleanValue("removeDash", false);
-            toUpperCase = config.getBooleanValue("toUpperCase", false);
+            removeDash = config.containsKey("removeDash") ? config.getBooleanValue("removeDash") : false;
+            toUpperCase = config.containsKey("toUpperCase") ? config.getBooleanValue("toUpperCase") : false;
         }
 
         String uuid = UUID.randomUUID().toString();
