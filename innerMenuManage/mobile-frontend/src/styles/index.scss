@@ -1,0 +1,144 @@
+@import './variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: $font-size-md;
+  color: $text-color;
+  background-color: $bg-color;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 50px;
+}
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: $bg-color-light;
+  box-shadow: $shadow-sm;
+}
+
+.empty-state {
+  padding: 80px 20px;
+  text-align: center;
+  color: $text-color-2;
+}
+
+.loading-state {
+  padding: 40px;
+  text-align: center;
+}
+
+.bottom-nav-placeholder {
+  height: 50px;
+}
+
+.component-wrapper {
+  margin-bottom: $spacing-md;
+}
+
+.banner-swiper {
+  :deep(.van-swipe__indicators) {
+    .van-swipe__indicator--active {
+      background-color: $primary-color;
+    }
+  }
+}
+
+.grid-nav {
+  background-color: $bg-color-light;
+  padding: $spacing-md;
+  
+  :deep(.van-grid-item__content) {
+    padding: $spacing-sm;
+  }
+  
+  .grid-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto $spacing-xs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($primary-color, 0.1);
+    border-radius: 50%;
+    font-size: $font-size-xl;
+    color: $primary-color;
+  }
+  
+  .grid-text {
+    font-size: $font-size-sm;
+    color: $text-color;
+  }
+}
+
+.product-list {
+  background-color: $bg-color-light;
+  
+  :deep(.van-card) {
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.user-card {
+  background: linear-gradient(135deg, $primary-color, #69b1ff);
+  padding: $spacing-xl;
+  color: #fff;
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-right: $spacing-md;
+    }
+    
+    .user-details {
+      .user-name {
+        font-size: $font-size-lg;
+        font-weight: bold;
+        margin-bottom: $spacing-xs;
+      }
+      
+      .user-points {
+        font-size: $font-size-sm;
+        opacity: 0.9;
+      }
+    }
+  }
+}
