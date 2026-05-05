@@ -1,0 +1,33 @@
+{
+  "name": "menu-mobile-backend",
+  "version": "1.0.0",
+  "description": "千人千面菜单管理系统 - 移动端后端API",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "menu",
+    "mobile",
+    "express",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "redis": "^4.6.10",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.3.1",
+    "express-async-handler": "^1.2.0",
+    "compression": "^1.7.4",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
