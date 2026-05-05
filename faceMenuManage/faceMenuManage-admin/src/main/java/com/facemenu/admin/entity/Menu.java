@@ -39,6 +39,9 @@ public class Menu {
     @Column(name = "permission")
     private String permission;
 
+    @Column(name = "target_slot_code")
+    private String targetSlotCode;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
