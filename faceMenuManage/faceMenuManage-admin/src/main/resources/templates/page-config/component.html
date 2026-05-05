@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>页面组件配置 - 菜单管理系统</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">页面组件配置</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/page/list}" class="btn btn-sm btn-secondary">返回页面列表</a>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}">操作成功</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>当前页面信息</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>页面编码：</strong><span th:text="${page.pageCode}">PAGE001</span>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>页面名称：</strong><span th:text="${page.pageName}">首页</span>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>路由路径：</strong><span th:text="${page.routePath}">/home</span>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>描述：</strong><span th:text="${page.description}">描述</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>添加组件关联</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/page-config/component/add}" method="post" class="row align-items-end">
+                    <input type="hidden" name="pageId" th:value="${page.id}" />
+                    <div class="col-md-3">
+                        <label for="componentId" class="form-label">选择组件</label>
+                        <select class="form-select" id="componentId" name="componentId" required>
+                            <option value="">请选择组件</option>
+                            <option th:each="component : ${allComponents}" 
+                                    th:value="${component.id}" 
+                                    th:text="${component.componentCode + ' - ' + component.componentName + ' (' + component.componentType + ')'}">顶部导航栏</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="sortOrder" class="form-label">排序</label>
+                        <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="configOverride" class="form-label">覆盖配置(JSON)</label>
+                        <textarea class="form-control" id="configOverride" name="configOverride" rows="1"
+                                  placeholder="留空则使用组件默认配置">">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">添加关联</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>已关联的组件（按排序顺序显示）</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>组件编码</th>
+                            <th>组件名称</th>
+                            <th>组件类型</th>
+                            <th>排序</th>
+                            <th>是否覆盖配置</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${linkedComponents}">
+                            <td th:text="${item.id}">1</td>
+                            <td th:text="${item.componentCode}">COMP001</td>
+                            <td th:text="${item.componentName}">顶部导航栏</td>
+                            <td th:text="${item.componentType}">Header</td>
+                            <td th:text="${item.sortOrder}">0</td>
+                            <td>
+                                <span th:if="${item.configJson != null and not #strings.isEmpty(item.configJson)}" class="badge bg-info">已覆盖</span>
+                                <span th:unless="${item.configJson != null and not #strings.isEmpty(item.configJson)}" class="badge bg-secondary">默认</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/page-config/component/delete/{id}(id=${item.id}, pageId=${page.id})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('确定要取消此关联吗？')">取消关联</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div th:if="${#lists.isEmpty(linkedComponents)}" class="text-center text-muted py-4">
+                    暂无关联数据
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

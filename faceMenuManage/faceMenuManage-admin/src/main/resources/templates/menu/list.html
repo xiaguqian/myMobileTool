@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>菜单管理 - 菜单管理系统</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">菜单管理</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/menu/add(treeId=${selectedTreeId})}" th:if="${selectedTreeId != null}" class="btn btn-sm btn-primary">新增菜单</a>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}">操作成功</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form th:action="@{/menu/list}" method="get">
+                    <div class="row align-items-end">
+                        <div class="col-md-6">
+                            <label for="treeId" class="form-label">选择菜单树</label>
+                            <select class="form-select" id="treeId" name="treeId" onchange="this.form.submit()">
+                                <option value="">请选择菜单树</option>
+                                <option th:each="menuTree : ${menuTrees}" 
+                                        th:value="${menuTree.id}" 
+                                        th:text="${menuTree.treeName}"
+                                        th:selected="${menuTree.id == selectedTreeId}">主导航菜单</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" th:if="${selectedTreeId != null}">
+            <div class="card-header">
+                <h5 th:text="'菜单树: ' + ${selectedTree.treeName}">菜单树</h5>
+            </div>
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(menuTree)}" class="text-center text-muted py-4">
+                    暂无菜单数据
+                </div>
+                <ul th:if="${not #lists.isEmpty(menuTree)}" class="list-group">
+                    <th:block th:each="menu : ${menuTree}">
+                        <li th:insert="~{menu/menu-item :: menuItem(menu=${menu}, level=0)}">">
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" th:if="${selectedTreeId == null}">
+            <div class="card-body text-center text-muted py-4">
+                请先选择一个菜单树
+            </div>
+        </div>
+    </div>
+</body>
+</html>

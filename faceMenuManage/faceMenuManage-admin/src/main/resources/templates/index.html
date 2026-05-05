@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>首页 - 菜单管理系统</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">系统首页</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">栏位管理</h5>
+                        <p class="card-text">管理系统中的栏位号，栏位是组件中的固定位置。</p>
+                        <a th:href="@{/slot/list}" class="btn btn-light">进入管理</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">菜单树管理</h5>
+                        <p class="card-text">管理菜单树结构，每个菜单树包含多个菜单项。</p>
+                        <a th:href="@{/menu-tree/list}" class="btn btn-light">进入管理</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">菜单管理</h5>
+                        <p class="card-text">管理具体的菜单项，支持树形结构配置。</p>
+                        <a th:href="@{/menu/list}" class="btn btn-light">进入管理</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">页面管理</h5>
+                        <p class="card-text">管理系统页面，页面由多个组件组成。</p>
+                        <a th:href="@{/page/list}" class="btn btn-light">进入管理</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">组件管理</h5>
+                        <p class="card-text">管理页面组件，包含组件配置JSON。</p>
+                        <a th:href="@{/component/list}" class="btn btn-light">进入管理</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">数据发布</h5>
+                        <p class="card-text">发布配置数据，生成JSON文件供用户端使用。</p>
+                        <a th:href="@{/publish}" class="btn btn-light">进入发布</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>系统说明</h5>
+            </div>
+            <div class="card-body">
+                <h6>元素关系说明：</h6>
+                <ul>
+                    <li><strong>栏位</strong>：组件中的固定位置，每个栏位号可关联多个菜单树和页面</li>
+                    <li><strong>菜单树</strong>：以树形结构存储的菜单信息</li>
+                    <li><strong>菜单</strong>：操作元素，点击时跳转到指定页面</li>
+                    <li><strong>页面</strong>：由多个组件按顺序组成</li>
+                    <li><strong>组件</strong>：页面的重要组成元素，包含JSON配置</li>
+                </ul>
+                <h6>配置流程：</h6>
+                <ol>
+                    <li>创建栏位号</li>
+                    <li>创建菜单树</li>
+                    <li>在菜单树下创建菜单（支持树形结构）</li>
+                    <li>创建组件</li>
+                    <li>创建页面，配置页面组件</li>
+                    <li>配置栏位与菜单树、栏位与页面的关联</li>
+                    <li>发布数据生成JSON文件</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

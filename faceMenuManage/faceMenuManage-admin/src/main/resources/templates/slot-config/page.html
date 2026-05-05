@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>栏位页面配置 - 菜单管理系统</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">栏位页面配置</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/slot/list}" class="btn btn-sm btn-secondary">返回栏位列表</a>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}">操作成功</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>当前栏位信息</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>栏位号：</strong><span th:text="${slot.slotCode}">SLOT001</span>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>栏位名称：</strong><span th:text="${slot.slotName}">顶部栏位</span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>描述：</strong><span th:text="${slot.description}">描述</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>添加页面关联</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/slot-config/page/add}" method="post" class="row align-items-end">
+                    <input type="hidden" name="slotId" th:value="${slot.id}" />
+                    <div class="col-md-4">
+                        <label for="pageId" class="form-label">选择页面</label>
+                        <select class="form-select" id="pageId" name="pageId" required>
+                            <option value="">请选择页面</option>
+                            <option th:each="page : ${allPages}" 
+                                    th:value="${page.id}" 
+                                    th:text="${page.pageCode + ' - ' + page.pageName}">首页</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="sortOrder" class="form-label">排序</label>
+                        <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="0">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">添加关联</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>已关联的页面</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>页面编码</th>
+                            <th>页面名称</th>
+                            <th>路由路径</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${linkedPages}">
+                            <td th:text="${item.id}">1</td>
+                            <td th:text="${item.pageCode}">PAGE001</td>
+                            <td th:text="${item.pageName}">首页</td>
+                            <td th:text="${item.routePath}">/home</td>
+                            <td th:text="${item.sortOrder}">0</td>
+                            <td>
+                                <a th:href="@{/slot-config/page/delete/{id}(id=${item.id}, slotId=${slot.id})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('确定要取消此关联吗？')">取消关联</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div th:if="${#lists.isEmpty(linkedPages)}" class="text-center text-muted py-4">
+                    暂无关联数据
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

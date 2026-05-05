@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${slot.id == null} ? '新增栏位' : '编辑栏位'">栏位表单</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2" th:text="${slot.id == null} ? '新增栏位' : '编辑栏位'">栏位表单</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/slot/list}" class="btn btn-sm btn-secondary">返回列表</a>
+            </div>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/slot/save}" method="post" th:object="${slot}">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="mb-3">
+                        <label for="slotCode" class="form-label">栏位号 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="slotCode" th:field="*{slotCode}" 
+                               th:readonly="${slot.id != null}" required>
+                        <div class="form-text">栏位号创建后不可修改</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="slotName" class="form-label">栏位名称</label>
+                        <input type="text" class="form-control" id="slotName" th:field="*{slotName}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" rows="3" th:field="*{description}">">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">状态</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a th:href="@{/slot/list}" class="btn btn-secondary">取消</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

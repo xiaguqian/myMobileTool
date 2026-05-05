@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${component.id == null} ? '新增组件' : '编辑组件'">组件表单</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2" th:text="${component.id == null} ? '新增组件' : '编辑组件'">组件表单</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/component/list}" class="btn btn-sm btn-secondary">返回列表</a>
+            </div>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/component/save}" method="post" th:object="${component}">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="componentCode" class="form-label">组件编码 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="componentCode" th:field="*{componentCode}" 
+                                       th:readonly="${component.id != null}" required>
+                                <div class="form-text">组件编码创建后不可修改</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="componentName" class="form-label">组件名称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="componentName" th:field="*{componentName}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="componentType" class="form-label">组件类型</label>
+                        <input type="text" class="form-control" id="componentType" th:field="*{componentType}">
+                        <div class="form-text">如：Header、Footer、Banner、List、Form等，用于前端识别组件类型</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="configJson" class="form-label">组件配置JSON</label>
+                        <textarea class="form-control font-monospace" id="configJson" rows="10" th:field="*{configJson}"
+                                  style="font-family: 'Courier New', monospace;">">
+                        <div class="form-text">组件加载所需的JSON配置，前端读取后按配置加载组件。示例：
+                            <pre>{
+  "title": "顶部导航",
+  "backgroundColor": "#333",
+  "height": 60,
+  "items": [
+    {"label": "首页", "url": "/home"},
+    {"label": "关于", "url": "/about"}
+  ]
+}</pre>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" rows="3" th:field="*{description}">">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">状态</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a th:href="@{/component/list}" class="btn btn-secondary">取消</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

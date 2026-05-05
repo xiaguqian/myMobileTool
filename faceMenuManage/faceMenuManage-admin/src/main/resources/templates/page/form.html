@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${page.id == null} ? '新增页面' : '编辑页面'">页面表单</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2" th:text="${page.id == null} ? '新增页面' : '编辑页面'">页面表单</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/page/list}" class="btn btn-sm btn-secondary">返回列表</a>
+            </div>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/page/save}" method="post" th:object="${page}">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="pageCode" class="form-label">页面编码 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="pageCode" th:field="*{pageCode}" 
+                                       th:readonly="${page.id != null}" required>
+                                <div class="form-text">页面编码创建后不可修改</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="pageName" class="form-label">页面名称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="pageName" th:field="*{pageName}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="routePath" class="form-label">路由路径</label>
+                        <input type="text" class="form-control" id="routePath" th:field="*{routePath}">
+                        <div class="form-text">菜单跳转时使用的路由路径，如 /home、/user/list</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" rows="3" th:field="*{description}">">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">状态</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a th:href="@{/page/list}" class="btn btn-secondary">取消</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

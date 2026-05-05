@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <li th:fragment="menuItem(menu, level)" class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center" th:style="'padding-left: ' + (level * 30) + 'px'">
+            <div>
+                <span th:if="${menu.children != null and not #lists.isEmpty(menu.children)}" class="me-2">
+                    <strong>📁</strong>
+                </span>
+                <span th:if="${menu.children == null or #lists.isEmpty(menu.children)}" class="me-2">
+                    <strong>📄</strong>
+                </span>
+                <strong th:text="${menu.menuName}">菜单名称</strong>
+                <span class="text-muted ms-2" th:text="${menu.menuUrl}">/page</span>
+                <span class="badge bg-secondary ms-2" th:if="${menu.status != 1}">禁用</span>
+            </div>
+            <div class="btn-group">
+                <a th:href="@{/menu/add(treeId=${menu.treeId}, parentId=${menu.id})}" class="btn btn-sm btn-outline-primary">添加子菜单</a>
+                <a th:href="@{/menu/edit/{id}(id=${menu.id})}" class="btn btn-sm btn-primary">编辑</a>
+                <a th:href="@{/menu/delete/{id}(id=${menu.id})}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('确定要删除此菜单吗？子菜单也会被删除！')">删除</a>
+            </div>
+        </div>
+        <ul th:if="${menu.children != null and not #lists.isEmpty(menu.children)}" class="list-group mt-2">
+            <li th:each="child : ${menu.children}" 
+                th:insert="~{menu/menu-item :: menuItem(menu=${child}, level=${level + 1})}">">
+        </ul>
+    </li>
+</body>
+</html>

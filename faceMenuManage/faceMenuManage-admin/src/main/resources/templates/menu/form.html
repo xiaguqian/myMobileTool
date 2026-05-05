@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${menu.id == null} ? '新增菜单' : '编辑菜单'">菜单表单</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2" th:text="${menu.id == null} ? '新增菜单' : '编辑菜单'">菜单表单</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/menu/list(treeId=${menu.treeId})}" class="btn btn-sm btn-secondary">返回列表</a>
+            </div>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}">操作失败</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/menu/save}" method="post" th:object="${menu}">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="treeId" class="form-label">菜单树 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="treeId" th:field="*{treeId}" required>
+                                    <option value="">请选择菜单树</option>
+                                    <option th:each="menuTree : ${menuTrees}" 
+                                            th:value="${menuTree.id}" 
+                                            th:text="${menuTree.treeName}">主导航菜单</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="parentId" class="form-label">父级菜单</label>
+                                <select class="form-select" id="parentId" th:field="*{parentId}">
+                                    <option value="">无（顶级菜单）</option>
+                                    <option th:each="m : ${availableParents}" 
+                                            th:value="${m.id}" 
+                                            th:text="${m.menuName}">父级菜单</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="menuCode" class="form-label">菜单编码</label>
+                                <input type="text" class="form-control" id="menuCode" th:field="*{menuCode}">
+                                <div class="form-text">留空则自动生成</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="menuName" class="form-label">菜单名称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="menuName" th:field="*{menuName}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="menuUrl" class="form-label">菜单URL</label>
+                                <input type="text" class="form-control" id="menuUrl" th:field="*{menuUrl}">
+                                <div class="form-text">点击菜单时跳转的路由地址</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="icon" class="form-label">图标</label>
+                                <input type="text" class="form-control" id="icon" th:field="*{icon}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sortOrder" class="form-label">排序</label>
+                                <input type="number" class="form-control" id="sortOrder" th:field="*{sortOrder}">
+                                <div class="form-text">数字越小越靠前</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="status" class="form-label">状态</label>
+                                <select class="form-select" id="status" th:field="*{status}">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="permission" class="form-label">权限标识</label>
+                        <input type="text" class="form-control" id="permission" th:field="*{permission}">
+                        <div class="form-text">用于权限控制的标识</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" rows="3" th:field="*{description}">">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a th:href="@{/menu/list(treeId=${menu.treeId})}" class="btn btn-secondary">取消</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
