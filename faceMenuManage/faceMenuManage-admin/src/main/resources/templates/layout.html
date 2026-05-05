@@ -1,75 +1,186 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
-    <title th:text="${title}">管理系统</title>
+    <title th:text="${title}">专业管理系统</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+        }
         .sidebar {
             min-height: 100vh;
-            background-color: #343a40;
+            background-color: #304156;
+            padding: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 220px;
+            z-index: 100;
         }
         .sidebar a {
-            color: #fff;
+            color: #bfcbd9;
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 12px 25px;
             display: block;
+            transition: all 0.3s;
+            font-size: 14px;
         }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #495057;
+        .sidebar a:hover {
+            background-color: #263445;
+            color: #409eff;
+        }
+        .sidebar a.active {
+            background-color: #409eff;
+            color: #fff;
+        }
+        .sidebar-header {
+            padding: 20px;
+            background-color: #263445;
+            margin-bottom: 10px;
+        }
+        .sidebar-header h4 {
+            margin: 0;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .nav-section {
+            padding: 15px 25px 5px;
+            color: #86909c;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         .main-content {
+            margin-left: 220px;
             padding: 20px;
+            background-color: #f0f2f5;
+            min-height: 100vh;
         }
-        .alert {
+        .page-header {
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .page-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #303133;
         }
         .card {
             margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
         }
-        .table-actions {
-            white-space: nowrap;
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 15px 20px;
+        }
+        .card-header h5 {
+            margin: 0;
+            font-size: 16px;
+            color: #303133;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead th {
+            background-color: #fafafa;
+            border-bottom: 1px solid #e8e8e8;
+            font-weight: 600;
+            color: #606266;
+        }
+        .table td {
+            vertical-align: middle;
         }
         .btn-sm {
             margin-right: 5px;
         }
-        .nav-section {
-            padding: 10px 15px;
-            color: #adb5bd;
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: bold;
+        .btn-primary {
+            background-color: #409eff;
+            border-color: #409eff;
         }
+        .btn-primary:hover {
+            background-color: #66b1ff;
+            border-color: #66b1ff;
+        }
+        .btn-success {
+            background-color: #67c23a;
+            border-color: #67c23a;
+        }
+        .btn-success:hover {
+            background-color: #85ce61;
+            border-color: #85ce61;
+        }
+        .btn-danger {
+            background-color: #f56c6c;
+            border-color: #f56c6c;
+        }
+        .btn-danger:hover {
+            background-color: #f78989;
+            border-color: #f78989;
+        }
+        .alert {
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: none;
+        }
+        .alert-success {
+            background-color: #f0f9eb;
+            color: #67c23a;
+        }
+        .alert-danger {
+            background-color: #fef0f0;
+            color: #f56c6c;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #606266;
+        }
+        .form-control:focus {
+            border-color: #409eff;
+            box-shadow: 0 0 0 0.2rem rgba(64, 158, 255, 0.2);
+        }
+        .form-select:focus {
+            border-color: #409eff;
+            box-shadow: 0 0 0 0.2rem rgba(64, 158, 255, 0.2);
+        }
+        .bg-primary { background-color: #409eff !important; }
+        .bg-success { background-color: #67c23a !important; }
+        .bg-info { background-color: #909399 !important; }
+        .bg-warning { background-color: #e6a23c !important; }
+        .bg-danger { background-color: #f56c6c !important; }
+        .bg-secondary { background-color: #909399 !important; }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 sidebar">
-                <div class="p-3 text-white">
-                    <h4>专业管理系统</h4>
-                </div>
-                <div class="nav-section">基础管理</div>
-                <a th:href="@{/}">首页</a>
-                <a th:href="@{/slot/list}">栏位管理</a>
-                <a th:href="@{/menu-tree/list}">菜单树管理</a>
-                <a th:href="@{/menu/list}">菜单管理</a>
-                <a th:href="@{/page/list}">页面管理</a>
-                <a th:href="@{/component/list}">组件管理</a>
-                <div class="nav-section">关联配置</div>
-                <a th:href="@{/slot-config/menu-tree}">栏位菜单树配置</a>
-                <a th:href="@{/slot-config/page}">栏位页面配置</a>
-                <div class="nav-section">发布管理</div>
-                <a th:href="@{/publish}">数据发布</a>
+    <div th:fragment="sidebar(activePage)">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h4>专业管理系统</h4>
             </div>
-            <div class="col-md-10 main-content">
-                <th:block layout:fragment="content">
-                </th:block>
-            </div>
+            <div class="nav-section">基础管理</div>
+            <a th:href="@{/}" th:classappend="${activePage == 'home'} ? 'active' : ''">首页</a>
+            <a th:href="@{/slot/list}" th:classappend="${activePage == 'slot'} ? 'active' : ''">栏位管理</a>
+            <a th:href="@{/menu-tree/list}" th:classappend="${activePage == 'menuTree'} ? 'active' : ''">菜单树管理</a>
+            <a th:href="@{/menu/list}" th:classappend="${activePage == 'menu'} ? 'active' : ''">菜单管理</a>
+            <a th:href="@{/page/list}" th:classappend="${activePage == 'page'} ? 'active' : ''">页面管理</a>
+            <a th:href="@{/component/list}" th:classappend="${activePage == 'component'} ? 'active' : ''">组件管理</a>
+            <div class="nav-section">关联配置</div>
+            <a th:href="@{/slot-config/menu-tree}" th:classappend="${activePage == 'slotConfigMenuTree'} ? 'active' : ''">栏位菜单树配置</a>
+            <a th:href="@{/slot-config/page}" th:classappend="${activePage == 'slotConfigPage'} ? 'active' : ''">栏位页面配置</a>
+            <div class="nav-section">发布管理</div>
+            <a th:href="@{/publish}" th:classappend="${activePage == 'publish'} ? 'active' : ''">数据发布</a>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

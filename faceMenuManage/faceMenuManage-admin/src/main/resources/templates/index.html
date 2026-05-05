@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>首页 - 菜单管理系统</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('首页 - 专业管理系统')"></head>
 <body>
-    <div layout:fragment="content">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">系统首页</h1>
+    <div th:replace="layout :: sidebar('home')"></div>
+    <div class="main-content">
+        <div class="page-header">
+            <h2>系统首页</h2>
         </div>
 
         <div class="row">
@@ -68,12 +65,12 @@
             </div>
         </div>
 
-        <div class="card mt-4">
+        <div class="card">
             <div class="card-header">
                 <h5>系统说明</h5>
             </div>
             <div class="card-body">
-                <h6>元素关系说明：</h6>
+                <h6 class="mt-2">元素关系说明：</h6>
                 <ul>
                     <li><strong>栏位</strong>：组件中的固定位置，每个栏位号可关联多个菜单树和页面</li>
                     <li><strong>菜单树</strong>：以树形结构存储的菜单信息</li>
@@ -81,7 +78,7 @@
                     <li><strong>页面</strong>：由多个组件按顺序组成</li>
                     <li><strong>组件</strong>：页面的重要组成元素，包含JSON配置</li>
                 </ul>
-                <h6>配置流程：</h6>
+                <h6 class="mt-4">配置流程：</h6>
                 <ol>
                     <li>创建栏位号</li>
                     <li>创建菜单树</li>

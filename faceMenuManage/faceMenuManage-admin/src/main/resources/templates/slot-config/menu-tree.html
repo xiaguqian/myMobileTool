@@ -1,107 +1,132 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>栏位菜单树配置 - 菜单管理系统</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('栏位菜单树配置 - 专业管理系统')"></head>
 <body>
-    <div layout:fragment="content">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">栏位菜单树配置</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <a th:href="@{/slot/list}" class="btn btn-sm btn-secondary">返回栏位列表</a>
-            </div>
+    <div th:replace="layout :: sidebar('slotConfigMenuTree')"></div>
+    <div class="main-content">
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <h2>栏位菜单树配置</h2>
+            <a th:href="@{/slot/list}" class="btn btn-secondary">返回栏位列表</a>
         </div>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${success}">操作成功</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
             <span th:text="${error}">操作失败</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <div class="card mb-4">
             <div class="card-header">
-                <h5>当前栏位信息</h5>
+                <h5>选择栏位</h5>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <strong>栏位号：</strong><span th:text="${slot.slotCode}">SLOT001</span>
-                    </div>
-                    <div class="col-md-3">
-                        <strong>栏位名称：</strong><span th:text="${slot.slotName}">顶部栏位</span>
-                    </div>
-                    <div class="col-md-6">
-                        <strong>描述：</strong><span th:text="${slot.description}">描述</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>添加菜单树关联</h5>
-            </div>
-            <div class="card-body">
-                <form th:action="@{/slot-config/menu-tree/add}" method="post" class="row align-items-end">
-                    <input type="hidden" name="slotId" th:value="${slot.id}" />
-                    <div class="col-md-4">
-                        <label for="treeId" class="form-label">选择菜单树</label>
-                        <select class="form-select" id="treeId" name="treeId" required>
-                            <option value="">请选择菜单树</option>
-                            <option th:each="menuTree : ${allMenuTrees}" 
-                                    th:value="${menuTree.id}" 
-                                    th:text="${menuTree.treeCode + ' - ' + menuTree.treeName}">主导航菜单</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="sortOrder" class="form-label">排序</label>
-                        <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="0">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">添加关联</button>
+                <form th:action="@{/slot-config/menu-tree}" method="get">
+                    <div class="row align-items-end">
+                        <div class="col-md-6">
+                            <label for="slotId" class="form-label">选择栏位</label>
+                            <select class="form-select" id="slotId" name="slotId" onchange="this.form.submit()">
+                                <option value="">请选择栏位</option>
+                                <option th:each="slot : ${allSlots}" 
+                                        th:value="${slot.id}" 
+                                        th:text="${slot.slotCode + ' - ' + slot.slotName}"
+                                        th:selected="${slot.id == currentSlotId}">顶部栏位</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h5>已关联的菜单树</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>菜单树编码</th>
-                            <th>菜单树名称</th>
-                            <th>排序</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="item : ${linkedMenuTrees}">
-                            <td th:text="${item.id}">1</td>
-                            <td th:text="${item.treeCode}">TREE001</td>
-                            <td th:text="${item.treeName}">主导航菜单</td>
-                            <td th:text="${item.sortOrder}">0</td>
-                            <td>
-                                <a th:href="@{/slot-config/menu-tree/delete/{id}(id=${item.id}, slotId=${slot.id})}" 
-                                   class="btn btn-sm btn-danger"
-                                   onclick="return confirm('确定要取消此关联吗？')">取消关联</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div th:if="${#lists.isEmpty(linkedMenuTrees)}" class="text-center text-muted py-4">
-                    暂无关联数据
+        <div th:if="${currentSlotId != null}">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>当前栏位信息</h5>
                 </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>栏位号：</strong><span th:text="${slot.slotCode}">SLOT001</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>栏位名称：</strong><span th:text="${slot.slotName}">顶部栏位</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>描述：</strong><span th:text="${slot.description}">描述</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>添加菜单树关联</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/slot-config/menu-tree/add}" method="post" class="row align-items-end">
+                        <input type="hidden" name="slotId" th:value="${slot.id}" />
+                        <div class="col-md-4">
+                            <label for="treeId" class="form-label">选择菜单树</label>
+                            <select class="form-select" id="treeId" name="treeId" required>
+                                <option value="">请选择菜单树</option>
+                                <option th:each="menuTree : ${availableMenuTrees}" 
+                                        th:value="${menuTree.id}" 
+                                        th:text="${menuTree.treeCode + ' - ' + menuTree.treeName}">主导航菜单</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="sortOrder" class="form-label">排序</label>
+                            <input type="number" class="form-control" id="sortOrder" name="sortOrder" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">添加关联</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>已关联的菜单树</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>菜单树编码</th>
+                                <th>菜单树名称</th>
+                                <th>排序</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${linkedMenuTrees}">
+                                <td th:text="${item.id}">1</td>
+                                <td th:text="${item.treeCode}">TREE001</td>
+                                <td th:text="${item.treeName}">主导航菜单</td>
+                                <td th:text="${item.sortOrder}">0</td>
+                                <td>
+                                    <a th:href="@{/slot-config/menu-tree/delete/{id}(id=${item.id}, slotId=${slot.id})}" 
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('确定要取消此关联吗？')">取消关联</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${#lists.isEmpty(linkedMenuTrees)}" class="text-center text-muted py-4">
+                        暂无关联数据
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" th:if="${currentSlotId == null}">
+            <div class="card-body text-center text-muted py-4">
+                请先选择一个栏位
             </div>
         </div>
     </div>

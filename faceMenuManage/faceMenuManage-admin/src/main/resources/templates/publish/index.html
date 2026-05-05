@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>数据发布 - 菜单管理系统</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('数据发布 - 专业管理系统')"></head>
 <body>
-    <div layout:fragment="content">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">数据发布</h1>
+    <div th:replace="layout :: sidebar('publish')"></div>
+    <div class="main-content">
+        <div class="page-header">
+            <h2>数据发布</h2>
         </div>
 
         <div class="card mb-4">

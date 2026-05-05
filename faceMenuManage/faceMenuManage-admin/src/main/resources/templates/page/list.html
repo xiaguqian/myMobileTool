@@ -1,27 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-<head>
-    <title>页面管理 - 菜单管理系统</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('页面管理 - 专业管理系统')"></head>
 <body>
-    <div layout:fragment="content">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">页面管理</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <a th:href="@{/page/add}" class="btn btn-sm btn-primary">新增页面</a>
-            </div>
+    <div th:replace="layout :: sidebar('page')"></div>
+    <div class="main-content">
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <h2>页面管理</h2>
+            <a th:href="@{/page/add}" class="btn btn-primary">新增页面</a>
         </div>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${success}">操作成功</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
             <span th:text="${error}">操作失败</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <div class="card">

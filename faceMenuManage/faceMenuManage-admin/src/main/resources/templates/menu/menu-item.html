@@ -23,7 +23,7 @@
         </div>
         <ul th:if="${menu.children != null and not #lists.isEmpty(menu.children)}" class="list-group mt-2">
             <li th:each="child : ${menu.children}" 
-                th:insert="~{menu/menu-item :: menuItem(menu=${child}, level=${level + 1})}">">
+                th:insert="~{menu/menu-item :: menuItem(menu=${child}, level=${level + 1})}"></li>
         </ul>
     </li>
 </body>
